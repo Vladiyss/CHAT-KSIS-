@@ -1,0 +1,6 @@
+G:\4term\КСиС\Lab2_Chat\ChatCommonInfo\ChatCommoInfo\bin\Debug\ChatCommoInfo.dll
+G:\4term\КСиС\Lab2_Chat\ChatCommonInfo\ChatCommoInfo\bin\Debug\ChatCommoInfo.pdb
+G:\4term\КСиС\Lab2_Chat\ChatCommonInfo\ChatCommoInfo\obj\Debug\ChatCommoInfo.csprojAssemblyReference.cache
+G:\4term\КСиС\Lab2_Chat\ChatCommonInfo\ChatCommoInfo\obj\Debug\ChatCommoInfo.csproj.CoreCompileInputs.cache
+G:\4term\КСиС\Lab2_Chat\ChatCommonInfo\ChatCommoInfo\obj\Debug\ChatCommoInfo.dll
+G:\4term\КСиС\Lab2_Chat\ChatCommonInfo\ChatCommoInfo\obj\Debug\ChatCommoInfo.pdb

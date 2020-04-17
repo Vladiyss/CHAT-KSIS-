@@ -1,0 +1,10 @@
+G:\4term\КСиС\Lab2_Chat\ChatServerSide\ChatServerSide\bin\Debug\ChatServerSide.exe.config
+G:\4term\КСиС\Lab2_Chat\ChatServerSide\ChatServerSide\bin\Debug\ChatServerSide.exe
+G:\4term\КСиС\Lab2_Chat\ChatServerSide\ChatServerSide\bin\Debug\ChatServerSide.pdb
+G:\4term\КСиС\Lab2_Chat\ChatServerSide\ChatServerSide\bin\Debug\ChatCommoInfo.dll
+G:\4term\КСиС\Lab2_Chat\ChatServerSide\ChatServerSide\bin\Debug\ChatCommoInfo.pdb
+G:\4term\КСиС\Lab2_Chat\ChatServerSide\ChatServerSide\obj\Debug\ChatServerSide.csprojAssemblyReference.cache
+G:\4term\КСиС\Lab2_Chat\ChatServerSide\ChatServerSide\obj\Debug\ChatServerSide.csproj.CoreCompileInputs.cache
+G:\4term\КСиС\Lab2_Chat\ChatServerSide\ChatServerSide\obj\Debug\ChatServerSide.csproj.CopyComplete
+G:\4term\КСиС\Lab2_Chat\ChatServerSide\ChatServerSide\obj\Debug\ChatServerSide.exe
+G:\4term\КСиС\Lab2_Chat\ChatServerSide\ChatServerSide\obj\Debug\ChatServerSide.pdb
