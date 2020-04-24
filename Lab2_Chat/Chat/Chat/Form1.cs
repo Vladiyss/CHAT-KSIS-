@@ -18,6 +18,7 @@ namespace Chat
         const int CHATDIALOG = 0;
         Client client;
 
+        delegate void ProcessFormFilling();
         Dictionary<int, AllDialogsMessages> chatDialogsInfo;
         List<ClientsInfo> clientsInfo;
         int CurrentDialog = CHATDIALOG;
@@ -35,24 +36,9 @@ namespace Chat
             client.ProcessReceivedMessagesEvent += ProcessReceivedMessages;
         }
 
-        int RetrieveMessageType(string currentType)
-        {
-            int i = 1;
-            bool flag = true;
-            while ((i <= 7) && flag)
-            {
-                int result = String.Compare(ChatCommonInfo.Message.MessageType[i], currentType);
-                if (result == 0)
-                    flag = false;
-                else
-                    ++i;
-            }
-            return i;
-        }
-
         public void ProcessReceivedMessages(ChatCommonInfo.Message message)
         {
-            int i = RetrieveMessageType(message.messageType);
+            int i = CommonInfo.RetrieveMessageType(message.messageType);
             switch (i)
             {
                 case 1:
@@ -65,13 +51,14 @@ namespace Chat
                     break;
                 case 2:
                     chatDialogsInfo[message.messageSenderID].AddMessage(message.messageTime.ToString() + " : " + message.messageContent);
+                    labelNewMessage.Text = "Новое сообщение от " + message.messageName;
                     break;
                 case 3:
                     chatDialogsInfo[CurrentDialog].Messages = message.messageHistory;
                     break;
                 case 5:
                     {
-                        Action action = delegate
+                        ProcessFormFilling FormFillingNewClient = delegate
                         {
                             clientsInfo.Clear();
                             clientsInfo.Add(new ClientsInfo() { clientID = CHATDIALOG, clientName = "Чат" });
@@ -85,14 +72,14 @@ namespace Chat
                             }
                         };
                         if (InvokeRequired)
-                            Invoke(action);
+                            Invoke(FormFillingNewClient);
                         else
-                            action();
+                            FormFillingNewClient();
                     }
                     break;
                 case 7:
                     {
-                        Action action = delegate
+                        ProcessFormFilling FormFillingServerResponse = delegate
                         {
                             textBoxServerIPAdress.Text = message.IPAdress;
                             textBoxServerPort.Text = message.serverPort.ToString();
@@ -100,29 +87,22 @@ namespace Chat
                             textBoxServerPort.Enabled = false;
                         };
                         if (InvokeRequired)
-                            Invoke(action);
+                            Invoke(FormFillingServerResponse);
                         else
-                            action();
+                            FormFillingServerResponse();
                     }
                     break;
                 default:
                     return;
             }
-            UpdateView();
+            if (i != 7)
+                UpdateView();
         }
 
         public void UpdateView()
         {
-            Action action = delegate
+            ProcessFormFilling FormUpdate = delegate
             {
-                /*if (CurrentDialog == CHATDIALOG)
-                {
-                    comboBoxParticipants.Text = chatDialogsInfo[CurrentDialog].Name;
-                }
-                else
-                {
-                    comboBoxParticipants.Text = comboBoxParticipants.SelectedItem.ToString();
-                } */
                 richTextBoxChatContent.Clear();
                 if (chatDialogsInfo != null)
                 {
@@ -142,9 +122,9 @@ namespace Chat
                 labelCurrentClientDialog.Text = chatDialogsInfo[CurrentDialog].Name;
             };
             if (InvokeRequired)
-                Invoke(action);
+                Invoke(FormUpdate);
             else
-                action();
+                FormUpdate();
         }
 
         private void buttonFindServer_Click(object sender, EventArgs e)
@@ -195,6 +175,7 @@ namespace Chat
                 richTextBoxChatContent.Clear();
                 labelCurrentClientDialog.Text = "-";
                 richTextBoxMessageContent.Clear();
+                labelNewMessage.Text = "-";
             }   
             else
                 labelDisplayConnection.Text = "...";

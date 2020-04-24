@@ -10,11 +10,6 @@ namespace ChatCommonInfo
     {
         public int clientID;
         public string clientName;
-
-        public override string ToString()
-        {
-            return clientName;
-        }
     }
 
     public class Message
@@ -74,30 +69,5 @@ namespace ChatCommonInfo
         }
 
         public Message() { }
-
-        /*public Message(string data, string messageType)
-        {
-            this.messageType = messageType;
-
-            if (this.messageType == MessageType[1])
-            {
-                messageContent = data;
-                messageName = "";
-            }
-            else if (this.messageType == MessageType[4])
-            {
-                messageContent = "";
-                messageName = data;
-            }
-        }
-
-        
-
-        public Message(string content)
-        {
-            messageType = MessageType[1];
-            messageContent = content;
-            messageName = "Кто-то";
-        }*/
     }
 }

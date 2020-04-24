@@ -65,24 +65,9 @@ namespace ChatServerSide
             } while (isConnected);
         }
 
-        int RetrieveMessageType(string messageType)
-        {
-            int i = 1;
-            bool flag = true;
-            while ((i <= 7) && flag)
-            {
-                int result = String.Compare(Message.MessageType[i], messageType);
-                if (0 == result)
-                    flag = false;
-                else
-                    ++i;
-            }
-            return i;
-        }
-
         void DefineMessageType(Message message)
         {
-            int i = RetrieveMessageType(message.messageType);
+            int i = CommonInfo.RetrieveMessageType(message.messageType);
 
             message.messageTime = DateTime.Now;
             message.IPAdress = ((IPEndPoint)listeningClientMessagesSocket.RemoteEndPoint).Address.ToString();

@@ -29,29 +29,18 @@ namespace Chat
         public Client()
         {
             messageSerializer = new MessageSerializer();
-            //SetClientSocketForUDPListening();
-            socketToCommunicateWithServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             threadsList = new List<Thread>();
         }
 
         public void SetClientSocketForUDPListening()
         {
             listeningUDPSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-
-            //IPEndPoint IPendPoint = new IPEndPoint(IPaddress, 0);
-            //listeningUDPSocket.Bind(IPendPoint);
-
-            //int clientPort = ((IPEndPoint)listeningUDPSocket.LocalEndPoint).Port;
             IPAddress IPaddress = CommonInfo.GetHostsIPAddress();
-
             IPEndPoint IPLocalPoint = new IPEndPoint(IPaddress, SERVERUDPPORT);
             listeningUDPSocket.Bind(IPLocalPoint);
 
             var message = new Message(IPaddress.ToString(), SERVERUDPPORT, Message.MessageType[6]);
 
-            //IPAddress IPaddress = IPAddress.Parse(BROADCASTIP);
-            //IPEndPoint IPendPoint = new IPEndPoint(IPaddress, SERVERPORT);
-            //Socket sendConnectionRequestSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
             IPAddress broadcastIPaddress = CommonInfo.GetHostsBroadcastIPAddress();
             IPEndPoint IPendPoint = new IPEndPoint(broadcastIPaddress, SERVERUDPPORT);
             listeningUDPSocket.SendTo(messageSerializer.Serialize(message), IPendPoint);
@@ -61,26 +50,8 @@ namespace Chat
             threadReceiveUDPMessages.Start();
         }
 
-        public void UdpBroadcastRequest()
-        {
-            /*
-            int clientPort = ((IPEndPoint)listeningUDPSocket.LocalEndPoint).Port;
-            var message = new Message(LOCALADDRESS, clientPort, Message.MessageType[6]);
-
-            IPAddress IPaddress = IPAddress.Parse(BROADCASTIP);
-            IPEndPoint IPendPoint = new IPEndPoint(IPaddress, SERVERPORT);
-            //Socket sendConnectionRequestSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
-            listeningUDPSocket.SendTo(messageSerializer.Serialize(message), IPendPoint);
-
-            Thread threadReceiveUDPMessages = new Thread(ReceiveUDPMessages);
-            threadsList.Add(threadReceiveUDPMessages);
-            threadReceiveUDPMessages.Start();
-            */
-        }
-
         public void ReceiveUDPMessages()
         {
-
             byte[] data = new byte[1024];
             EndPoint remotePoint = new IPEndPoint(IPAddress.Any, 0);
             while (true)
@@ -145,6 +116,7 @@ namespace Chat
 
         public bool Connect(IPEndPoint endPoint)
         {
+            socketToCommunicateWithServer = new Socket(AddressFamily.InterNetwork, SocketType.Stream, ProtocolType.Tcp);
             try
             {
                 socketToCommunicateWithServer.Connect(endPoint);
@@ -158,7 +130,7 @@ namespace Chat
             }
         }
 
-        public bool SendMessage(Message message)
+        public void SendMessage(Message message)
         {
             byte[] buffer = messageSerializer.Serialize(message);
             try
@@ -169,7 +141,6 @@ namespace Chat
             {
                 Disconnect();
             }
-            return true;
         }
 
         public void CloseAllThreads()

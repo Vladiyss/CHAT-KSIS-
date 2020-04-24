@@ -45,6 +45,7 @@
             this.comboBoxParticipants = new System.Windows.Forms.ComboBox();
             this.labelCurrentClientDialog = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
+            this.labelNewMessage = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -209,11 +210,21 @@
             this.label4.TabIndex = 17;
             this.label4.Text = "Участники";
             // 
+            // labelNewMessage
+            // 
+            this.labelNewMessage.AutoSize = true;
+            this.labelNewMessage.Location = new System.Drawing.Point(25, 450);
+            this.labelNewMessage.Name = "labelNewMessage";
+            this.labelNewMessage.Size = new System.Drawing.Size(14, 18);
+            this.labelNewMessage.TabIndex = 18;
+            this.labelNewMessage.Text = "-";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
             this.ClientSize = new System.Drawing.Size(1091, 588);
+            this.Controls.Add(this.labelNewMessage);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.labelCurrentClientDialog);
             this.Controls.Add(this.comboBoxParticipants);
@@ -259,6 +270,7 @@
         private System.Windows.Forms.ComboBox comboBoxParticipants;
         private System.Windows.Forms.Label labelCurrentClientDialog;
         private System.Windows.Forms.Label label4;
+        private System.Windows.Forms.Label labelNewMessage;
     }
 }
 

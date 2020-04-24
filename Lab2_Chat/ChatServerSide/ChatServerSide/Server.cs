@@ -56,9 +56,8 @@ namespace ChatServerSide
                 if (message.messageType == Message.MessageType[6])
                 {
                     Message messageResponse = new Message()
-                    { IPAdress = message.IPAdress, messageType = Message.MessageType[7], serverPort = SERVERTCPPORT };
+                    { IPAdress = CommonInfo.GetHostsIPAddress().ToString(), messageType = Message.MessageType[7], serverPort = SERVERTCPPORT };
                     var iPaddress = IPAddress.Parse(message.IPAdress);
-                    //Socket connectionResponseSocket = new Socket(AddressFamily.InterNetwork, SocketType.Dgram, ProtocolType.Udp);
                     IPEndPoint remoteEndPoint = new IPEndPoint(iPaddress, message.clientPort);
                     socketListener.SendTo(messageSerializer.Serialize(messageResponse), remoteEndPoint);
                 }
