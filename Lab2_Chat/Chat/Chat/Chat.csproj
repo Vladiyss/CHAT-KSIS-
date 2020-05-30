@@ -86,6 +86,10 @@
       <Project>{fea08bfc-3072-4556-a71c-b1b115d40d2e}</Project>
       <Name>ChatCommoInfo</Name>
     </ProjectReference>
+    <ProjectReference Include="..\..\ClientHTTP\ClientHTTP\ClientHTTP.csproj">
+      <Project>{787fd3e8-e264-40c4-9908-d707a207a529}</Project>
+      <Name>ClientHTTP</Name>
+    </ProjectReference>
   </ItemGroup>
   <Import Project="$(MSBuildToolsPath)\Microsoft.CSharp.targets" />
 </Project>

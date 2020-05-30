@@ -46,6 +46,22 @@
             this.labelCurrentClientDialog = new System.Windows.Forms.Label();
             this.label4 = new System.Windows.Forms.Label();
             this.labelNewMessage = new System.Windows.Forms.Label();
+            this.comboBoxDownloadedFiles = new System.Windows.Forms.ComboBox();
+            this.comboBoxAcceptedToSaveFiles = new System.Windows.Forms.ComboBox();
+            this.label5 = new System.Windows.Forms.Label();
+            this.label6 = new System.Windows.Forms.Label();
+            this.buttonDownloadFile = new System.Windows.Forms.Button();
+            this.buttonDeleteDownloadedFile = new System.Windows.Forms.Button();
+            this.buttonSaveFile = new System.Windows.Forms.Button();
+            this.buttonGetFileInformation = new System.Windows.Forms.Button();
+            this.openFileDialog1 = new System.Windows.Forms.OpenFileDialog();
+            this.saveFileDialog1 = new System.Windows.Forms.SaveFileDialog();
+            this.label7 = new System.Windows.Forms.Label();
+            this.label8 = new System.Windows.Forms.Label();
+            this.labelFileName = new System.Windows.Forms.Label();
+            this.labelFileSize = new System.Windows.Forms.Label();
+            this.labelFileManageStatus = new System.Windows.Forms.Label();
+            this.label9 = new System.Windows.Forms.Label();
             this.SuspendLayout();
             // 
             // label1
@@ -137,24 +153,24 @@
             // 
             // richTextBoxChatContent
             // 
-            this.richTextBoxChatContent.Location = new System.Drawing.Point(459, 77);
+            this.richTextBoxChatContent.Location = new System.Drawing.Point(432, 77);
             this.richTextBoxChatContent.Name = "richTextBoxChatContent";
-            this.richTextBoxChatContent.Size = new System.Drawing.Size(590, 314);
+            this.richTextBoxChatContent.Size = new System.Drawing.Size(522, 314);
             this.richTextBoxChatContent.TabIndex = 9;
             this.richTextBoxChatContent.Text = "";
             // 
             // richTextBoxMessageContent
             // 
-            this.richTextBoxMessageContent.Location = new System.Drawing.Point(459, 410);
+            this.richTextBoxMessageContent.Location = new System.Drawing.Point(432, 410);
             this.richTextBoxMessageContent.Name = "richTextBoxMessageContent";
-            this.richTextBoxMessageContent.Size = new System.Drawing.Size(434, 35);
+            this.richTextBoxMessageContent.Size = new System.Drawing.Size(366, 35);
             this.richTextBoxMessageContent.TabIndex = 10;
             this.richTextBoxMessageContent.Text = "";
             // 
             // buttonSendMessage
             // 
             this.buttonSendMessage.Enabled = false;
-            this.buttonSendMessage.Location = new System.Drawing.Point(899, 410);
+            this.buttonSendMessage.Location = new System.Drawing.Point(804, 410);
             this.buttonSendMessage.Name = "buttonSendMessage";
             this.buttonSendMessage.Size = new System.Drawing.Size(150, 35);
             this.buttonSendMessage.TabIndex = 11;
@@ -195,7 +211,7 @@
             // labelCurrentClientDialog
             // 
             this.labelCurrentClientDialog.AutoSize = true;
-            this.labelCurrentClientDialog.Location = new System.Drawing.Point(713, 25);
+            this.labelCurrentClientDialog.Location = new System.Drawing.Point(677, 25);
             this.labelCurrentClientDialog.Name = "labelCurrentClientDialog";
             this.labelCurrentClientDialog.Size = new System.Drawing.Size(14, 18);
             this.labelCurrentClientDialog.TabIndex = 16;
@@ -219,11 +235,159 @@
             this.labelNewMessage.TabIndex = 18;
             this.labelNewMessage.Text = "-";
             // 
+            // comboBoxDownloadedFiles
+            // 
+            this.comboBoxDownloadedFiles.FormattingEnabled = true;
+            this.comboBoxDownloadedFiles.Location = new System.Drawing.Point(975, 77);
+            this.comboBoxDownloadedFiles.Name = "comboBoxDownloadedFiles";
+            this.comboBoxDownloadedFiles.Size = new System.Drawing.Size(200, 26);
+            this.comboBoxDownloadedFiles.TabIndex = 19;
+            this.comboBoxDownloadedFiles.SelectedIndexChanged += new System.EventHandler(this.comboBoxDownloadedFiles_SelectedIndexChanged);
+            // 
+            // comboBoxAcceptedToSaveFiles
+            // 
+            this.comboBoxAcceptedToSaveFiles.FormattingEnabled = true;
+            this.comboBoxAcceptedToSaveFiles.Location = new System.Drawing.Point(1264, 77);
+            this.comboBoxAcceptedToSaveFiles.Name = "comboBoxAcceptedToSaveFiles";
+            this.comboBoxAcceptedToSaveFiles.Size = new System.Drawing.Size(200, 26);
+            this.comboBoxAcceptedToSaveFiles.TabIndex = 20;
+            this.comboBoxAcceptedToSaveFiles.SelectedIndexChanged += new System.EventHandler(this.comboBoxAcceptedToSaveFiles_SelectedIndexChanged);
+            // 
+            // label5
+            // 
+            this.label5.AutoSize = true;
+            this.label5.Location = new System.Drawing.Point(972, 47);
+            this.label5.Name = "label5";
+            this.label5.Size = new System.Drawing.Size(253, 18);
+            this.label5.TabIndex = 21;
+            this.label5.Text = "Загруженные на сервер файлы";
+            // 
+            // label6
+            // 
+            this.label6.AutoSize = true;
+            this.label6.Location = new System.Drawing.Point(1261, 47);
+            this.label6.Name = "label6";
+            this.label6.Size = new System.Drawing.Size(214, 18);
+            this.label6.TabIndex = 22;
+            this.label6.Text = "Принятые для скачивания";
+            // 
+            // buttonDownloadFile
+            // 
+            this.buttonDownloadFile.Location = new System.Drawing.Point(975, 230);
+            this.buttonDownloadFile.Name = "buttonDownloadFile";
+            this.buttonDownloadFile.Size = new System.Drawing.Size(200, 46);
+            this.buttonDownloadFile.TabIndex = 23;
+            this.buttonDownloadFile.Text = "Загрузить";
+            this.buttonDownloadFile.UseVisualStyleBackColor = true;
+            this.buttonDownloadFile.Click += new System.EventHandler(this.buttonDownloadFile_Click);
+            // 
+            // buttonDeleteDownloadedFile
+            // 
+            this.buttonDeleteDownloadedFile.Location = new System.Drawing.Point(975, 298);
+            this.buttonDeleteDownloadedFile.Name = "buttonDeleteDownloadedFile";
+            this.buttonDeleteDownloadedFile.Size = new System.Drawing.Size(200, 46);
+            this.buttonDeleteDownloadedFile.TabIndex = 24;
+            this.buttonDeleteDownloadedFile.Text = "Удалить";
+            this.buttonDeleteDownloadedFile.UseVisualStyleBackColor = true;
+            this.buttonDeleteDownloadedFile.Click += new System.EventHandler(this.buttonDeleteDownloadedFile_Click);
+            // 
+            // buttonSaveFile
+            // 
+            this.buttonSaveFile.Location = new System.Drawing.Point(1264, 230);
+            this.buttonSaveFile.Name = "buttonSaveFile";
+            this.buttonSaveFile.Size = new System.Drawing.Size(200, 46);
+            this.buttonSaveFile.TabIndex = 25;
+            this.buttonSaveFile.Text = "Сохранить";
+            this.buttonSaveFile.UseVisualStyleBackColor = true;
+            this.buttonSaveFile.Click += new System.EventHandler(this.buttonSaveFile_Click);
+            // 
+            // buttonGetFileInformation
+            // 
+            this.buttonGetFileInformation.Location = new System.Drawing.Point(1264, 298);
+            this.buttonGetFileInformation.Name = "buttonGetFileInformation";
+            this.buttonGetFileInformation.Size = new System.Drawing.Size(200, 46);
+            this.buttonGetFileInformation.TabIndex = 26;
+            this.buttonGetFileInformation.Text = "Получить инфу";
+            this.buttonGetFileInformation.UseVisualStyleBackColor = true;
+            this.buttonGetFileInformation.Click += new System.EventHandler(this.buttonGetFileInformation_Click);
+            // 
+            // openFileDialog1
+            // 
+            this.openFileDialog1.FileName = "openFileDialog1";
+            // 
+            // label7
+            // 
+            this.label7.AutoSize = true;
+            this.label7.Location = new System.Drawing.Point(1261, 361);
+            this.label7.Name = "label7";
+            this.label7.Size = new System.Drawing.Size(41, 18);
+            this.label7.TabIndex = 27;
+            this.label7.Text = "Имя";
+            // 
+            // label8
+            // 
+            this.label8.AutoSize = true;
+            this.label8.Location = new System.Drawing.Point(1261, 398);
+            this.label8.Name = "label8";
+            this.label8.Size = new System.Drawing.Size(67, 18);
+            this.label8.TabIndex = 28;
+            this.label8.Text = "Размер";
+            // 
+            // labelFileName
+            // 
+            this.labelFileName.AutoSize = true;
+            this.labelFileName.Location = new System.Drawing.Point(1333, 361);
+            this.labelFileName.Name = "labelFileName";
+            this.labelFileName.Size = new System.Drawing.Size(26, 18);
+            this.labelFileName.TabIndex = 29;
+            this.labelFileName.Text = "---";
+            // 
+            // labelFileSize
+            // 
+            this.labelFileSize.AutoSize = true;
+            this.labelFileSize.Location = new System.Drawing.Point(1333, 398);
+            this.labelFileSize.Name = "labelFileSize";
+            this.labelFileSize.Size = new System.Drawing.Size(26, 18);
+            this.labelFileSize.TabIndex = 30;
+            this.labelFileSize.Text = "---";
+            // 
+            // labelFileManageStatus
+            // 
+            this.labelFileManageStatus.AutoSize = true;
+            this.labelFileManageStatus.Location = new System.Drawing.Point(429, 463);
+            this.labelFileManageStatus.Name = "labelFileManageStatus";
+            this.labelFileManageStatus.Size = new System.Drawing.Size(26, 18);
+            this.labelFileManageStatus.TabIndex = 31;
+            this.labelFileManageStatus.Text = "---";
+            // 
+            // label9
+            // 
+            this.label9.AutoSize = true;
+            this.label9.Location = new System.Drawing.Point(1420, 398);
+            this.label9.Name = "label9";
+            this.label9.Size = new System.Drawing.Size(44, 18);
+            this.label9.TabIndex = 32;
+            this.label9.Text = "байт";
+            // 
             // MainForm
             // 
             this.AutoScaleDimensions = new System.Drawing.SizeF(10F, 18F);
             this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-            this.ClientSize = new System.Drawing.Size(1091, 588);
+            this.ClientSize = new System.Drawing.Size(1503, 588);
+            this.Controls.Add(this.label9);
+            this.Controls.Add(this.labelFileManageStatus);
+            this.Controls.Add(this.labelFileSize);
+            this.Controls.Add(this.labelFileName);
+            this.Controls.Add(this.label8);
+            this.Controls.Add(this.label7);
+            this.Controls.Add(this.buttonGetFileInformation);
+            this.Controls.Add(this.buttonSaveFile);
+            this.Controls.Add(this.buttonDeleteDownloadedFile);
+            this.Controls.Add(this.buttonDownloadFile);
+            this.Controls.Add(this.label6);
+            this.Controls.Add(this.label5);
+            this.Controls.Add(this.comboBoxAcceptedToSaveFiles);
+            this.Controls.Add(this.comboBoxDownloadedFiles);
             this.Controls.Add(this.labelNewMessage);
             this.Controls.Add(this.label4);
             this.Controls.Add(this.labelCurrentClientDialog);
@@ -271,6 +435,22 @@
         private System.Windows.Forms.Label labelCurrentClientDialog;
         private System.Windows.Forms.Label label4;
         private System.Windows.Forms.Label labelNewMessage;
+        private System.Windows.Forms.ComboBox comboBoxDownloadedFiles;
+        private System.Windows.Forms.ComboBox comboBoxAcceptedToSaveFiles;
+        private System.Windows.Forms.Label label5;
+        private System.Windows.Forms.Label label6;
+        private System.Windows.Forms.Button buttonDownloadFile;
+        private System.Windows.Forms.Button buttonDeleteDownloadedFile;
+        private System.Windows.Forms.Button buttonSaveFile;
+        private System.Windows.Forms.Button buttonGetFileInformation;
+        private System.Windows.Forms.OpenFileDialog openFileDialog1;
+        private System.Windows.Forms.SaveFileDialog saveFileDialog1;
+        private System.Windows.Forms.Label label7;
+        private System.Windows.Forms.Label label8;
+        private System.Windows.Forms.Label labelFileName;
+        private System.Windows.Forms.Label labelFileSize;
+        private System.Windows.Forms.Label labelFileManageStatus;
+        private System.Windows.Forms.Label label9;
     }
 }
 

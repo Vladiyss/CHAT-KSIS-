@@ -8,6 +8,7 @@ namespace Chat
 {
     class AllDialogsMessages
     {
+        public Dictionary<int, string> FilesToSave = new Dictionary<int, string>();
         public List<string> Messages;
         public string Name;
 

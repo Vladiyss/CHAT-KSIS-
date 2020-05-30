@@ -11,3 +11,5 @@ G:\4term\КСиС\Lab2_Chat\Chat\Chat\obj\Debug\Chat.pdb
 G:\4term\КСиС\Lab2_Chat\Chat\Chat\bin\Debug\ChatCommoInfo.dll
 G:\4term\КСиС\Lab2_Chat\Chat\Chat\bin\Debug\ChatCommoInfo.pdb
 G:\4term\КСиС\Lab2_Chat\Chat\Chat\obj\Debug\Chat.csproj.CopyComplete
+G:\4term\КСиС\Lab2_Chat\Chat\Chat\bin\Debug\ClientHTTP.dll
+G:\4term\КСиС\Lab2_Chat\Chat\Chat\bin\Debug\ClientHTTP.pdb

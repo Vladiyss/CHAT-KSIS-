@@ -39,7 +39,7 @@ namespace ChatServerSide
 
         public void ReceiveClientMessages()
         {
-            byte[] data = new byte[1024];
+            byte[] data = new byte[2048];
             int amount;
             do
             {

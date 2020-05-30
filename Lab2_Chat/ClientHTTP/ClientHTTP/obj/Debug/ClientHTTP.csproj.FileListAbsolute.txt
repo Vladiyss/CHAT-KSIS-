@@ -1,0 +1,6 @@
+G:\4term\КСиС\Lab2_Chat\ClientHTTP\ClientHTTP\bin\Debug\ClientHTTP.dll
+G:\4term\КСиС\Lab2_Chat\ClientHTTP\ClientHTTP\bin\Debug\ClientHTTP.pdb
+G:\4term\КСиС\Lab2_Chat\ClientHTTP\ClientHTTP\obj\Debug\ClientHTTP.csprojAssemblyReference.cache
+G:\4term\КСиС\Lab2_Chat\ClientHTTP\ClientHTTP\obj\Debug\ClientHTTP.csproj.CoreCompileInputs.cache
+G:\4term\КСиС\Lab2_Chat\ClientHTTP\ClientHTTP\obj\Debug\ClientHTTP.dll
+G:\4term\КСиС\Lab2_Chat\ClientHTTP\ClientHTTP\obj\Debug\ClientHTTP.pdb

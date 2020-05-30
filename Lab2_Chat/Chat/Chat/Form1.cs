@@ -9,6 +9,8 @@ using System.Threading.Tasks;
 using System.Windows.Forms;
 using System.Net;
 using ChatCommonInfo;
+using ClientHTTP;
+using System.IO;
 
 
 namespace Chat
@@ -17,12 +19,15 @@ namespace Chat
     {
         const int CHATDIALOG = 0;
         Client client;
+        ClientHTTP.Client httpClient;
 
         delegate void ProcessFormFilling();
         Dictionary<int, AllDialogsMessages> chatDialogsInfo;
         List<ClientsInfo> clientsInfo;
         int CurrentDialog = CHATDIALOG;
         int selectedReceiverIndex = 0;
+        int selectedLoadedToServerFileIndex = -1;
+        int selectedToSaveFileIndex = -1;
 
         public MainForm()
         {
@@ -33,6 +38,7 @@ namespace Chat
             chatDialogsInfo.Add(CHATDIALOG, new AllDialogsMessages("Чат"));
 
             client = new Client();
+            httpClient = new ClientHTTP.Client();
             client.ProcessReceivedMessagesEvent += ProcessReceivedMessages;
         }
 
@@ -48,10 +54,26 @@ namespace Chat
                     else
                     chatDialogsInfo[CHATDIALOG].AddMessage(message.messageTime.ToString() + " - " + message.IPAdress
                         + " - " + message.messageName + " : " + message.messageContent);
+
+                    if (message.areFilesSended)
+                    {
+                       foreach (ChatCommonInfo.FileInformaton fileInformaton in message.sendedFilesList)
+                       {
+                           chatDialogsInfo[CHATDIALOG].FilesToSave.Add(fileInformaton.fileID, fileInformaton.fileName);
+                       }
+                    }
                     break;
                 case 2:
                     chatDialogsInfo[message.messageSenderID].AddMessage(message.messageTime.ToString() + " : " + message.messageContent);
                     labelNewMessage.Text = "Новое сообщение от " + message.messageName;
+
+                    if (message.areFilesSended)
+                    {
+                        foreach (ChatCommonInfo.FileInformaton fileInformaton in message.sendedFilesList)
+                        {
+                            chatDialogsInfo[message.messageSenderID].FilesToSave.Add(fileInformaton.fileID, fileInformaton.fileName);
+                        }
+                    }
                     break;
                 case 3:
                     chatDialogsInfo[CurrentDialog].Messages = message.messageHistory;
@@ -117,6 +139,12 @@ namespace Chat
                 foreach (ClientsInfo clientInfo in clientsInfo)
                 {
                     comboBoxParticipants.Items.Add(clientInfo.clientName);
+                }
+
+                comboBoxAcceptedToSaveFiles.Items.Clear();
+                foreach (KeyValuePair<int, string> filesToSave in chatDialogsInfo[CurrentDialog].FilesToSave)
+                {
+                    comboBoxAcceptedToSaveFiles.Items.Add(filesToSave);
                 }
 
                 labelCurrentClientDialog.Text = chatDialogsInfo[CurrentDialog].Name;
@@ -189,6 +217,7 @@ namespace Chat
                 {
                     string messagecontent = richTextBoxMessageContent.Text;
                     ChatCommonInfo.Message message;
+
                     if (CurrentDialog != CHATDIALOG)
                     {
                         message = new ChatCommonInfo.Message(CurrentDialog, messagecontent);
@@ -197,8 +226,31 @@ namespace Chat
                     else
                     {
                         message = new ChatCommonInfo.Message()
-                        { messageContent = messagecontent, messageType = ChatCommonInfo.Message.MessageType[1] };
+                        { messageContent = messagecontent, messageType = ChatCommonInfo.Message.MessageType[1], };
                     }
+
+                    if (httpClient.LoadedToServerFiles.Count != 0)
+                    {
+                        labelFileManageStatus.Text = "OK";
+                        message.areFilesSended = true;
+                        var fileInformationList = new List<FileInformaton>();
+                        foreach (KeyValuePair<int, string> keyValuePair in httpClient.LoadedToServerFiles)
+                        {
+                            fileInformationList.Add(new ChatCommonInfo.FileInformaton()
+                            { fileID = keyValuePair.Key, fileName = keyValuePair.Value });
+                        }
+
+                        message.sendedFilesList = fileInformationList;
+                        httpClient.LoadedToServerFiles.Clear();
+                        httpClient.commonSizeOfLoadedFiles = 0;
+                        selectedLoadedToServerFileIndex = -1;
+                        UpdateFilesList();
+                    }
+                    else
+                    {
+                        message.areFilesSended = false;
+                    }
+
                     client.SendMessage(message);
                     richTextBoxMessageContent.Clear();
 
@@ -233,6 +285,109 @@ namespace Chat
         private void MainForm_FormClosing(object sender, FormClosingEventArgs e)
         {
             client.CloseAllThreads();
+        }
+
+        void UpdateFilesList()
+        {
+            comboBoxDownloadedFiles.Items.Clear();
+            foreach(KeyValuePair<int, string> file in httpClient.LoadedToServerFiles)
+            {
+                comboBoxDownloadedFiles.Items.Add(file);
+            }
+        }
+
+        private async void buttonDownloadFile_Click(object sender, EventArgs e)
+        {
+            if (openFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                string filePath = openFileDialog1.FileName;
+                string fileStatus = httpClient.CheckFileSizeAndExtension(filePath);
+                if (String.IsNullOrEmpty(fileStatus))
+                {
+                    int fileID = await httpClient.LoadFileToServer(filePath);
+                    labelFileManageStatus.Text = "Файл загружен";
+                    httpClient.LoadedToServerFiles.Add(fileID, Path.GetFileName(filePath));
+                    UpdateFilesList();
+                }
+                else
+                    labelFileManageStatus.Text = fileStatus;
+            }
+        }
+
+        private async void buttonDeleteDownloadedFile_Click(object sender, EventArgs e)
+        {
+            if (selectedLoadedToServerFileIndex != -1)
+            {
+                int fileID = ((KeyValuePair<int, string>)comboBoxDownloadedFiles.SelectedItem).Key;
+                string deletingFileStatus = await httpClient.DeleteLoadedToServerFile(fileID);
+                labelFileManageStatus.Text = deletingFileStatus;
+                UpdateFilesList();
+            }
+            else
+                labelFileManageStatus.Text = "Выберите файл для удаления!";
+        }
+
+        private void comboBoxDownloadedFiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedLoadedToServerFileIndex = comboBoxDownloadedFiles.SelectedIndex;
+        }
+
+        private void comboBoxAcceptedToSaveFiles_SelectedIndexChanged(object sender, EventArgs e)
+        {
+            selectedToSaveFileIndex = comboBoxAcceptedToSaveFiles.SelectedIndex;
+        }
+
+        private async void buttonGetFileInformation_Click(object sender, EventArgs e)
+        {
+            if (selectedToSaveFileIndex != -1)
+            {
+                int fileID = ((KeyValuePair<int, string>)comboBoxAcceptedToSaveFiles.SelectedItem).Key;
+                string getFileInformationStatus = await httpClient.GetFileInformation(fileID);
+                labelFileManageStatus.Text = getFileInformationStatus;
+                labelFileName.Text = httpClient.requestedFileName;
+                labelFileSize.Text = httpClient.requestedFileSize;
+            }
+            else
+                labelFileManageStatus.Text = "Выберите файл для поиска информации!";
+        }
+
+        void SaveFileContent()
+        {
+            string fileName;
+            if (saveFileDialog1.ShowDialog() == DialogResult.OK)
+            {
+                fileName = saveFileDialog1.FileName;
+                FileStream outputFile = new FileStream(fileName, FileMode.Create);
+                try
+                {
+                    outputFile.Write(httpClient.requestedFileContent, 0, httpClient.requestedFileContent.Length);
+                }
+                finally
+                {
+                    outputFile.Close();
+                }
+                Array.Clear(httpClient.requestedFileContent, 0, httpClient.requestedFileContent.Length);
+            }
+        }
+
+        private async void buttonSaveFile_Click(object sender, EventArgs e)
+        {
+            if (selectedToSaveFileIndex != -1)
+            {
+                int fileID = ((KeyValuePair<int, string>)comboBoxAcceptedToSaveFiles.SelectedItem).Key;
+                string saveFileStatus = await httpClient.GetFileToSave(fileID);
+                if (String.IsNullOrEmpty(saveFileStatus))
+                {
+                    SaveFileContent();
+                    labelFileManageStatus.Text = "Файл cохранён!";
+                    chatDialogsInfo[CurrentDialog].FilesToSave.Remove(fileID);
+                    UpdateView();
+                }
+                else
+                    labelFileManageStatus.Text = saveFileStatus;
+            }
+            else
+                labelFileManageStatus.Text = "Выберите файл для сохранения!";
         }
     }
 }

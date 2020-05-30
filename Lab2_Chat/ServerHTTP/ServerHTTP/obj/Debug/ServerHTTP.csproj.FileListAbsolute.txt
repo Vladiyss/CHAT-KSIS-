@@ -1,0 +1,7 @@
+G:\4term\КСиС\Lab2_Chat\ServerHTTP\ServerHTTP\bin\Debug\ServerHTTP.exe.config
+G:\4term\КСиС\Lab2_Chat\ServerHTTP\ServerHTTP\bin\Debug\ServerHTTP.exe
+G:\4term\КСиС\Lab2_Chat\ServerHTTP\ServerHTTP\bin\Debug\ServerHTTP.pdb
+G:\4term\КСиС\Lab2_Chat\ServerHTTP\ServerHTTP\obj\Debug\ServerHTTP.csprojAssemblyReference.cache
+G:\4term\КСиС\Lab2_Chat\ServerHTTP\ServerHTTP\obj\Debug\ServerHTTP.csproj.CoreCompileInputs.cache
+G:\4term\КСиС\Lab2_Chat\ServerHTTP\ServerHTTP\obj\Debug\ServerHTTP.exe
+G:\4term\КСиС\Lab2_Chat\ServerHTTP\ServerHTTP\obj\Debug\ServerHTTP.pdb

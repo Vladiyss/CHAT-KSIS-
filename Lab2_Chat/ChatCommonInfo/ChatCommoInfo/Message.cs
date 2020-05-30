@@ -12,6 +12,12 @@ namespace ChatCommonInfo
         public string clientName;
     }
 
+    public struct FileInformaton
+    {
+        public int fileID;
+        public string fileName;
+    }
+
     public class Message
     {
         public static Dictionary<int, string> MessageType = new Dictionary<int, string>()
@@ -37,6 +43,8 @@ namespace ChatCommonInfo
 
         public List<ClientsInfo> clientsInfo;
         public List<string> messageHistory;
+        public List<FileInformaton> sendedFilesList;
+        public bool areFilesSended;
         
         public DateTime messageTime;
 
