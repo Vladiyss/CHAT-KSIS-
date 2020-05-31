@@ -12,7 +12,6 @@ using ChatCommonInfo;
 using ClientHTTP;
 using System.IO;
 
-
 namespace Chat
 {
     public partial class MainForm : Form
@@ -144,7 +143,7 @@ namespace Chat
                 comboBoxAcceptedToSaveFiles.Items.Clear();
                 foreach (KeyValuePair<int, string> filesToSave in chatDialogsInfo[CurrentDialog].FilesToSave)
                 {
-                    comboBoxAcceptedToSaveFiles.Items.Add(filesToSave);
+                    comboBoxAcceptedToSaveFiles.Items.Add(filesToSave.Value);
                 }
 
                 labelCurrentClientDialog.Text = chatDialogsInfo[CurrentDialog].Name;
@@ -341,7 +340,7 @@ namespace Chat
         {
             if (selectedToSaveFileIndex != -1)
             {
-                int fileID = ((KeyValuePair<int, string>)comboBoxAcceptedToSaveFiles.SelectedItem).Key;
+                int fileID = chatDialogsInfo[CurrentDialog].FilesToSave.ElementAt(selectedToSaveFileIndex).Key;
                 string getFileInformationStatus = await httpClient.GetFileInformation(fileID);
                 labelFileManageStatus.Text = getFileInformationStatus;
                 labelFileName.Text = httpClient.requestedFileName;
@@ -374,13 +373,14 @@ namespace Chat
         {
             if (selectedToSaveFileIndex != -1)
             {
-                int fileID = ((KeyValuePair<int, string>)comboBoxAcceptedToSaveFiles.SelectedItem).Key;
+                int fileID = chatDialogsInfo[CurrentDialog].FilesToSave.ElementAt(selectedToSaveFileIndex).Key;
                 string saveFileStatus = await httpClient.GetFileToSave(fileID);
                 if (String.IsNullOrEmpty(saveFileStatus))
                 {
                     SaveFileContent();
                     labelFileManageStatus.Text = "Файл cохранён!";
                     chatDialogsInfo[CurrentDialog].FilesToSave.Remove(fileID);
+                    selectedToSaveFileIndex = -1;
                     UpdateView();
                 }
                 else

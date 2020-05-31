@@ -24,7 +24,6 @@ namespace ClientHTTP
         public int commonSizeOfLoadedFiles = 0;
 
         HttpClient client;
-
         public Client()
         {
             client = new HttpClient();
@@ -54,7 +53,7 @@ namespace ClientHTTP
         {
             string extension = Path.GetExtension(filePath);
             if (!AcceptableExtensions.Contains(extension))
-                return "Данное расширение файла " + extension + " сервером не поддерживается!";
+                return "Данное расширение файла " + extension + " не поддерживается!";
 
             var fileInfo = new FileInfo(filePath);
             int fileSize = (int)fileInfo.Length;
@@ -76,8 +75,8 @@ namespace ClientHTTP
             HttpRequestMessage httpLoadRequestMessage = new HttpRequestMessage(HttpMethod.Post, httpServerURL + fileName);
             MultipartFormDataContent multipartFormDataContent = PrepareFileContentToSending(filePath);
             httpLoadRequestMessage.Content = multipartFormDataContent;
-
             httpLoadRequestMessage.Headers.Add("RealFileName", fileName);
+
             int additionalUniqueValue = 1;
             int resultFileID = -1;
             HttpResponseMessage httpLoadResponseMessage = await client.SendAsync(httpLoadRequestMessage);
@@ -146,7 +145,6 @@ namespace ClientHTTP
             HttpResponseMessage httpSaveFileResponseMessage = await client.SendAsync(httpSaveFileRequestMessage);
             if (httpSaveFileResponseMessage.StatusCode == System.Net.HttpStatusCode.OK)
             {
-                Console.WriteLine("Файл с ID " + fileID + " запрошен для сохранения!");
                 requestedFileContent = await httpSaveFileResponseMessage.Content.ReadAsByteArrayAsync();
                 return "";
             }

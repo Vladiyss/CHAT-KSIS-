@@ -64,6 +64,7 @@ namespace ServerHTTP
         void ManageHttpGETRequest(HttpListenerContext httpListenerContext)
         {
             var fileId = int.Parse(httpListenerContext.Request.Url.LocalPath.Substring(1));
+            Console.WriteLine("Файл с ID " + fileId + " запрошен для сохранения!");
             if (IsFileWithThisIDExists(fileId))
             {
                 httpListenerContext.Response.StatusCode = (int)HttpStatusCode.OK;
@@ -139,10 +140,8 @@ namespace ServerHTTP
         void ManageHttpPOSTRequest(HttpListenerContext httpListenerContext)
         {
             string fileName = httpListenerContext.Request.Url.LocalPath.Substring(1);
-            //string fileName = httpListenerContext.Request.Headers.Get("FileName");
             if (IsFileWithThisNameExists(fileName))
             {
-                httpListenerContext.Response.StatusCode = (int)HttpStatusCode.NotImplemented;
                 httpListenerContext.Response.OutputStream.Write(Encoding.ASCII.GetBytes(failedToSaveFile.ToString()), 0,
                 Encoding.ASCII.GetBytes(failedToSaveFile.ToString()).Length);
                 Console.WriteLine("Имя " + fileName + "уже существует");
@@ -153,7 +152,6 @@ namespace ServerHTTP
                 int newFileID = AddFile(fileName, fileContent);
                 RealFilesFromClient.Add(newFileID, httpListenerContext.Request.Headers.Get("RealFileName"));
 
-                httpListenerContext.Response.StatusCode = (int)HttpStatusCode.OK;
                 httpListenerContext.Response.OutputStream.Write(Encoding.ASCII.GetBytes(newFileID.ToString()), 0,
                 Encoding.ASCII.GetBytes(newFileID.ToString()).Length);
                 Console.WriteLine("Файл " + fileName + "был загружен на сервер под ID " + newFileID.ToString());
